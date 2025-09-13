@@ -12,7 +12,7 @@ const CategoryExplorer = ({
       </h2>
 
       {/* Categories Grid */}
-      <div className="flex justify-center items-center gap-6 md:gap-8 mx-auto">
+      <div className="flex justify-center items-center gap-6 md:gap-8 mx-auto flex-wrap">
         {categories.map((category, index) => (
           <div
             key={index}

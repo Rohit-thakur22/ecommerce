@@ -7,11 +7,11 @@ const ProductList = () => {
   const data = productList;
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#fff7f9] mt-4">
       <div className="w-full mx-auto px-8 py-8">
         <div className="flex w-full gap-8">
           {/* Filters Sidebar */}
-          <div className="sticky top-4 h-fit">
+          <div className="sticky top-4 h-fit hidden md:block">
             <Filters />
           </div>
           
@@ -21,7 +21,7 @@ const ProductList = () => {
               <p className="text-gray-600">Showing {data.length} products</p>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center">
               {data.map((product) => (
                 <Card key={product.id} id={product.id} product={product} />
               ))}

@@ -1,18 +1,10 @@
 export const nav = [
   {
     name: "new arrivals",
-    url: "",
+    url: "/products",
   },
   {
-    name: "categories",
-    url: "",
+    name: "products",
+    url: "/products",
   },
-  {
-    name: "collections",
-    url: "",
-  },
-  {
-    name:'shop all',
-    url:''
-}
 ];

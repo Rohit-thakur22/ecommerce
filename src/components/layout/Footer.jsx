@@ -3,10 +3,10 @@ import { Mail, Facebook, Instagram } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="mt-8 pt-5 bg-[#0e4f55] text-white">
+    <footer className="mt-8 pt-5 bg-[#fff7f9] text-black">
       {/* White moving strip */}
-      <div className="bg-white text-[#0e4f55]">
-        <div className="footer-marquee-wrapper py-2 border-y border-[#0e4f55]">
+      <div className="bg-white text-[#db7f9b]">
+        <div className="footer-marquee-wrapper py-2 border-y border-[#db7f9b]">
           <div className="footer-marquee-track">
             {Array.from({ length: 20 }).map((_, idx) => (
               <span key={idx} className="text-sm font-semibold tracking-widest">

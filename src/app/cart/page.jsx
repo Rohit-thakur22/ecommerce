@@ -66,7 +66,7 @@ export default function CartPage() {
             <div>₹ {subtotal.toLocaleString()}</div>
           </div>
 
-          <button className="mt-5 w-full bg-[#0e4f55] text-white py-3 text-sm tracking-wide">PROCEED TO CHECKOUT</button>
+          <button className="mt-5 w-full bg-primary text-white py-3 text-sm tracking-wide">PROCEED TO CHECKOUT</button>
 
           <div className="text-xs text-gray-500 mt-3">Shipping, taxes, and discount codes calculated at checkout.</div>
         </div>

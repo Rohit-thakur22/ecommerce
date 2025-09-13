@@ -208,10 +208,10 @@ export default function ProductDetailPage({ params }) {
 
             {/* CTAs */}
             <div className="mt-6 flex gap-3">
-              <button onClick={handleAddToCart} className="flex-1 bg-[#0e4f55] text-white py-3 text-sm tracking-wide">
+              <button onClick={handleAddToCart} className="flex-1 bg-primary text-white py-3 text-sm tracking-wide">
                 ADD TO CART
               </button>
-              <button className="flex-1 border border-[#0e4f55] text-[#0e4f55] py-3 text-sm tracking-wide">
+              <button className="flex-1 border border-primbg-primary text-primbg-primary py-3 text-sm tracking-wide">
                 BUY NOW
               </button>
             </div>

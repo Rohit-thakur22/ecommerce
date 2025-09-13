@@ -55,7 +55,7 @@ const ProductCard = ({
         
         {/* Sale Badge */}
         {isOnSale && (
-          <div className="absolute top-0 right-0 bg-teal-700 text-white px-2 py-1 text-xs font-medium">
+          <div className="absolute top-0 right-0 bg-[#f59cb7] text-white px-2 py-1 text-xs font-medium">
             Sale
           </div>
         )}
@@ -88,7 +88,7 @@ const ProductCard = ({
         {/* CTA */}
         <span 
           className="inline-block w-full text-center py-3 text-white text-sm tracking-wide transition-all duration-200 hover:opacity-90"
-          style={{ backgroundColor: '#0e4f55' }}
+          style={{ backgroundColor: '#f59cb7' }}
         >
           VIEW DETAILS
         </span>

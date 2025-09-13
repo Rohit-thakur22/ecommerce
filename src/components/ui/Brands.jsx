@@ -39,7 +39,7 @@ const Brands = () => {
         LEADING BRAND ON MARKETPLACES
       </div>
 
-      <div className="flex justify-center items-center gap-5">
+      <div className="flex justify-center items-center gap-5 flex-wrap">
         {marketplaces.map((m) => (
           <div
             key={m.name}

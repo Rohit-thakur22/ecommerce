@@ -5,14 +5,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #80375d;
+  --primary: #f59cb7;
   --secondary: #33A1E0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-primary: #80375d;
+  --color-primary: #f59cb7;
   --color-secondary: #33A1E0;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -22,7 +22,7 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --primary: #80375d;
+    --primary: #f59cb7;
     --secondary: #33A1E0;
   }
 }
