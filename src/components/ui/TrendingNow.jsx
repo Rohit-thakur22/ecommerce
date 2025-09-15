@@ -1,5 +1,4 @@
-import React from "react";
-import { bestSellersList, trendingList } from "../json/products";
+import { trendingList } from "../json/products";
 import ProductCard from "../products/Card";
 
 const TrendingNow = () => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-const ProductCard = ({ 
+const ProductCard = ({
   id,
   product = {
     name: "Leaf Twirl - Maroon Ruby American Diamond Gold Plated Jewellery Set",
@@ -52,7 +52,7 @@ const ProductCard = ({
             <div className="text-5xl select-none">💎</div>
           )}
         </div>
-        
+
         {/* Sale Badge */}
         {isOnSale && (
           <div className="absolute top-0 right-0 bg-[#f59cb7] text-white px-2 py-1 text-xs font-medium">
@@ -60,14 +60,14 @@ const ProductCard = ({
           </div>
         )}
       </div>
-      
+
       {/* Product Details */}
       <div className="p-4 space-y-3">
         {/* Title */}
         <h3 className="text-gray-900 font-medium text-base leading-snug">
           {title}
         </h3>
-        
+
         {/* Price Section */}
         <div className="flex items-center space-x-2">
           <span className="text-xl font-medium text-gray-900">
@@ -84,9 +84,9 @@ const ProductCard = ({
             </span>
           )}
         </div>
-        
+
         {/* CTA */}
-        <span 
+        <span
           className="inline-block w-full text-center py-3 text-white text-sm tracking-wide transition-all duration-200 hover:opacity-90"
           style={{ backgroundColor: '#f59cb7' }}
         >
