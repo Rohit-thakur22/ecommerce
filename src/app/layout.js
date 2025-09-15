@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import HeaderWithBanner from "@/components/layout/HeaderWithBanner";
 import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/components/cart/CartContext";
+import WhatsAppFloatingButton from "@/components/ui/WhatsAppFloatingButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
           <HeaderWithBanner/>
           {children}
           <Footer/>
+          <WhatsAppFloatingButton/>
         </CartProvider>
       </body>
     </html>

@@ -1,31 +1,66 @@
 "use client";
 import React, { useState } from "react";
 
-const Filters = () => {
+const Filters = ({ onFilterChange, products = [] }) => {
+  // Calculate actual price range from products
+  const getPriceRange = () => {
+    const prices = products.map(product => {
+      const priceStr = product.price.replace(/[₹,]/g, '');
+      return parseFloat(priceStr) || 0;
+    });
+    return {
+      min: Math.min(...prices),
+      max: Math.max(...prices)
+    };
+  };
+
+  const actualPriceRange = getPriceRange();
+
   const [expandedSections, setExpandedSections] = useState({
-    availability: false,
     price: false,
-    size: false,
     color: false,
-    style: false,
-    gemstone: false,
-    occasion: false,
-    plating: false,
-    basemetal: false,
+    category: false,
   });
 
   const [selectedFilters, setSelectedFilters] = useState({
-    availability: [],
-    size: [],
     color: [],
-    style: [],
-    gemstone: [],
-    occasion: [],
-    plating: [],
-    basemetal: [],
+    category: [],
   });
 
-  const [priceRange, setPriceRange] = useState([0, 8632]);
+  const [priceRange, setPriceRange] = useState([actualPriceRange.min, actualPriceRange.max]);
+
+  // Calculate actual counts from products
+  const getColorCounts = () => {
+    const colorCounts = {};
+    products.forEach(product => {
+      if (product.color) {
+        colorCounts[product.color] = (colorCounts[product.color] || 0) + 1;
+      }
+    });
+    return colorCounts;
+  };
+
+  const getCategoryCounts = () => {
+    const categoryCounts = {};
+    products.forEach(product => {
+      if (product.category) {
+        categoryCounts[product.category] = (categoryCounts[product.category] || 0) + 1;
+      }
+    });
+    return categoryCounts;
+  };
+
+  const colorCounts = getColorCounts();
+  const categoryCounts = getCategoryCounts();
+
+  // Sort options by count (descending) for better UX
+  const sortedColorOptions = Object.keys(colorCounts)
+    .map(color => ({ label: color, count: colorCounts[color] }))
+    .sort((a, b) => b.count - a.count);
+
+  const sortedCategoryOptions = Object.keys(categoryCounts)
+    .map(category => ({ label: category, count: categoryCounts[category] }))
+    .sort((a, b) => b.count - a.count);
 
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({
@@ -35,102 +70,38 @@ const Filters = () => {
   };
 
   const toggleFilter = (category, value) => {
-    setSelectedFilters((prev) => ({
-      ...prev,
-      [category]: prev[category].includes(value)
-        ? prev[category].filter((item) => item !== value)
-        : [...prev[category], value],
-    }));
+    const newFilters = {
+      ...selectedFilters,
+      [category]: selectedFilters[category].includes(value)
+        ? selectedFilters[category].filter((item) => item !== value)
+        : [...selectedFilters[category], value],
+    };
+    setSelectedFilters(newFilters);
+    onFilterChange({ ...newFilters, priceRange });
+  };
+
+  const handlePriceChange = (newPriceRange) => {
+    setPriceRange(newPriceRange);
+    onFilterChange({ ...selectedFilters, priceRange: newPriceRange });
   };
 
   const filterSections = [
     {
-      id: "availability",
-      title: "AVAILABILITY",
-      options: [
-        { label: "In stock", count: 459 },
-        { label: "Out of stock", count: 11 },
-      ],
-    },
-    {
       id: "price",
       title: "PRICE",
       type: "range",
-      min: 0,
-      max: 8632,
-    },
-    {
-      id: "size",
-      title: "SIZE",
-      options: [
-        { label: "XS", count: 12 },
-        { label: "S", count: 45 },
-        { label: "M", count: 78 },
-        { label: "L", count: 56 },
-        { label: "XL", count: 23 },
-      ],
+      min: actualPriceRange.min,
+      max: actualPriceRange.max,
     },
     {
       id: "color",
       title: "COLOR",
-      options: [
-        { label: "Blue", count: 4 },
-        { label: "Gold", count: 73 },
-        { label: "Green", count: 28 },
-        { label: "green", count: 1 },
-        { label: "Maroon", count: 5 },
-        { label: "Pink", count: 12 },
-        { label: "Red", count: 8 },
-        { label: "Silver", count: 34 },
-      ],
+      options: sortedColorOptions,
     },
     {
-      id: "style",
-      title: "STYLE",
-      options: [
-        { label: "Casual", count: 45 },
-        { label: "Formal", count: 23 },
-        { label: "Vintage", count: 12 },
-        { label: "Modern", count: 67 },
-      ],
-    },
-    {
-      id: "gemstone",
-      title: "GEMSTONE",
-      options: [
-        { label: "Diamond", count: 34 },
-        { label: "Ruby", count: 12 },
-        { label: "Emerald", count: 8 },
-        { label: "Sapphire", count: 15 },
-      ],
-    },
-    {
-      id: "occasion",
-      title: "OCCASION",
-      options: [
-        { label: "Wedding", count: 23 },
-        { label: "Party", count: 45 },
-        { label: "Daily Wear", count: 78 },
-        { label: "Festival", count: 34 },
-      ],
-    },
-    {
-      id: "plating",
-      title: "PLATING",
-      options: [
-        { label: "Gold Plated", count: 56 },
-        { label: "Silver Plated", count: 34 },
-        { label: "Rose Gold", count: 23 },
-      ],
-    },
-    {
-      id: "basemetal",
-      title: "BASEMETAL",
-      options: [
-        { label: "Brass", count: 45 },
-        { label: "Copper", count: 23 },
-        { label: "Stainless Steel", count: 67 },
-      ],
+      id: "category",
+      title: "CATEGORY",
+      options: sortedCategoryOptions,
     },
   ];
 
@@ -178,7 +149,7 @@ const Filters = () => {
                       max={section.max}
                       value={priceRange[1]}
                       onChange={(e) =>
-                        setPriceRange([priceRange[0], parseInt(e.target.value)])
+                        handlePriceChange([priceRange[0], parseInt(e.target.value)])
                       }
                       className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                     />

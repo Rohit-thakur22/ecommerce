@@ -7,6 +7,24 @@ import Link from "next/link";
 
 const HeaderWithBanner = () => {
   const [showBanner, setShowBanner] = useState(true);
+  const [hoveredItem, setHoveredItem] = useState(null);
+
+  const handleWhatsAppClick = () => {
+    // Replace with your actual WhatsApp number (include country code without +)
+    const phoneNumber = '1234567890'; // Replace with your WhatsApp number
+    const message = 'Hello! I\'m interested in your products. Can you help me?';
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleCartClick = () => {
+    // Redirect to cart page
+    window.location.href = '/cart';
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,7 +89,11 @@ const HeaderWithBanner = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
+          <button 
+            onClick={handleWhatsAppClick}
+            className="flex items-center cursor-pointer gap-2 text-gray-700 hover:text-primary transition-colors"
+            aria-label="Contact us on WhatsApp"
+          >
             <Image src={"/whatsapp.svg"} height={25} width={25} alt="whatsapp" />
           </button>
 
@@ -79,7 +101,11 @@ const HeaderWithBanner = () => {
             <UserRound />
           </button>
 
-          <button className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors">
+          <button 
+            onClick={handleCartClick}
+            className="flex items-center cursor-pointer gap-2 text-gray-700 hover:text-primary transition-colors"
+            aria-label="View shopping cart"
+          >
             <ShoppingBag />
           </button>
         </div>
@@ -94,14 +120,47 @@ const HeaderWithBanner = () => {
       <div className="flex justify-center gap-10 uppercase tracking-wider text-md items-center text-black mt-3 transition-all duration-500 ease-in-out">
         {nav.map((item) => {
           return (
-            <Link
-              href={item.url}
+            <div
               key={item.name}
-              className="relative cursor-pointer transition-colors duration-300 hover:text-[#f59cb7] group"
+              className="relative"
+              onMouseEnter={() => setHoveredItem(item.name)}
+              onMouseLeave={() => setHoveredItem(null)}
             >
-              {item.name}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#f59cb7] transition-all duration-300 ease-in-out group-hover:w-full"></span>
-            </Link>
+              <Link
+                href={item.url}
+                className="relative cursor-pointer transition-colors duration-300 hover:text-[#f59cb7] group"
+              >
+                {item.name}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#f59cb7] transition-all duration-300 ease-in-out group-hover:w-full"></span>
+              </Link>
+              
+              {/* Dropdown Menu */}
+              {item.subItems && hoveredItem === item.name && (
+                <div 
+                  className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-64 bg-white shadow-xl border border-gray-100 z-50 overflow-hidden"
+                  style={{
+                    animation: 'fadeInScale 0.3s ease-out forwards'
+                  }}
+                >
+                  <div className="py-1">
+                    {item.subItems.map((subItem, index) => (
+                      <Link
+                        key={subItem.name}
+                        href={subItem.url}
+                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#f59cb7] transition-colors duration-200 border-b border-gray-50 last:border-b-0"
+                        style={{
+                          animationDelay: `${index * 30}ms`,
+                          animation: 'slideInFromTop 0.2s ease-out forwards',
+                          opacity: 0
+                        }}
+                      >
+                        {subItem.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           );
         })}
       </div>

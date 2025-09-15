@@ -19,21 +19,22 @@ export default function ProductDetailPage({ params }) {
   // In Next.js 15, params is a Promise in client components
   const resolvedParams = usePromise(params);
   const { id } = resolvedParams || {};
-  const index = Number(id);
 
   const product = useMemo(() => {
-    if (Number.isNaN(index) || index < 0 || index >= productList.length)
-      return null;
-    return productList[index];
-  }, [index]);
+    if (!id) return null;
+    // Find product by ID (string matching)
+    return productList.find(p => p.id === id) || null;
+  }, [id]);
 
   const [quantity, setQuantity] = useState(1);
 
   if (!product) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8">
+        <div className="text-6xl mb-4">🔍</div>
         <p className="text-xl font-medium mb-2">Product not found</p>
-        <Link href="/products" className="text-teal-700 underline">
+        <p className="text-gray-600 mb-4">The product with ID "{id}" could not be found.</p>
+        <Link href="/products" className="bg-[#f59cb7] text-white px-6 py-3 rounded-md hover:opacity-90 transition-opacity">
           Back to products
         </Link>
       </div>
@@ -51,7 +52,8 @@ export default function ProductDetailPage({ params }) {
     return Number.isNaN(n) ? 0 : n;
   })();
 
-  const thumbnails = [
+ 
+  const thumbnails = product?.images || [
     "/assets/slide1.webp",
     "/assets/cat1.webp",
     "/assets/bride.webp",
@@ -64,7 +66,7 @@ export default function ProductDetailPage({ params }) {
 
   const handleAddToCart = () => {
     addItem({
-      id: index,
+      id: product.id, 
       title,
       image: activeImage,
       priceNumber: currentPriceNumber,
@@ -76,6 +78,16 @@ export default function ProductDetailPage({ params }) {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-6 py-10">
+        {/* Breadcrumb Navigation */}
+        <nav className="mb-6 text-sm text-gray-600">
+          <Link href="/" className="hover:text-gray-900">Home</Link>
+          <span className="mx-2">/</span>
+          <Link href="/products" className="hover:text-gray-900">Products</Link>
+          <span className="mx-2">/</span>
+          <span className="text-gray-900">{product?.category || "Jewelry"}</span>
+          <span className="mx-2">/</span>
+          <span className="text-gray-900 font-medium">{title}</span>
+        </nav>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left: Gallery */}
           <div className="flex gap-4">
@@ -114,6 +126,11 @@ export default function ProductDetailPage({ params }) {
             <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 leading-snug">
               {title}
             </h1>
+            
+            {/* Product ID Display */}
+            <div className="mt-2 text-sm text-gray-500">
+              Product ID: {product?.id} | SKU: {product?.id?.padStart(6, '0')}
+            </div>
 
             {/* Price */}
             <div className="mt-4 flex items-end gap-3">
@@ -141,7 +158,7 @@ export default function ProductDetailPage({ params }) {
               <div className="text-xs tracking-widest text-gray-500">SIZE</div>
               <div className="mt-2 flex gap-2">
                 <button className="px-3 py-2 border border-gray-400 text-sm text-gray-600">
-                  Onesize
+                  {product?.size || "One Size"}
                 </button>
               </div>
             </div>
@@ -149,7 +166,7 @@ export default function ProductDetailPage({ params }) {
             {/* Color */}
             <div className="mt-4">
               <div className="text-xs tracking-widest text-gray-500">COLOR</div>
-              <div className="mt-2 text-sm text-gray-600">White</div>
+              <div className="mt-2 text-sm text-gray-600">{product?.color || "Gold"}</div>
             </div>
 
             {/* Material */}
@@ -157,7 +174,7 @@ export default function ProductDetailPage({ params }) {
               <div className="text-xs tracking-widest text-gray-500">
                 MATERIAL
               </div>
-              <div className="mt-2 text-sm text-gray-600">Brass</div>
+              <div className="mt-2 text-sm text-gray-600">{product?.material || "Brass"}</div>
             </div>
 
             {/* Quantity */}
@@ -216,16 +233,29 @@ export default function ProductDetailPage({ params }) {
               </button>
             </div>
 
-            {/* Accordions (static) */}
+            {/* Accordions (dynamic) */}
             <div className="mt-8 divide-y divide-gray-200 border border-gray-200">
               <details className="p-4 text-gray-600" open >
                 <summary className="cursor-pointer font-medium">
                   Description
                 </summary>
                 <p className="mt-2 text-sm text-gray-600">
-                  Elegant gold-plated earrings with pearls and kundan detailing.
-                  Perfect for festive and wedding occasions.
+                  {product?.description || "Elegant gold-plated earrings with pearls and kundan detailing. Perfect for festive and wedding occasions."}
                 </p>
+              </details>
+              <details className="p-4 text-gray-600">
+                <summary className="cursor-pointer font-medium">
+                  Product Information
+                </summary>
+                <div className="mt-2 text-sm text-gray-600 space-y-1">
+                  <p><strong>Category:</strong> {product?.category || "Jewelry"}</p>
+                  <p><strong>Material:</strong> {product?.material || "Brass"}</p>
+                  <p><strong>Color:</strong> {product?.color || "Gold"}</p>
+                  <p><strong>Size:</strong> {product?.size || "One Size"}</p>
+                  {product?.rating && (
+                    <p><strong>Rating:</strong> {product.rating}/5 ({product.reviews} reviews)</p>
+                  )}
+                </div>
               </details>
               <details className="p-4 text-gray-600">
                 <summary className="cursor-pointer font-medium">
