@@ -14,7 +14,7 @@ export default function CartPage() {
       <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left: Items */}
         <div className="lg:col-span-2">
-          <h1 className="text-2xl font-semibold text-center mb-8">CART <span className="font-normal">({items.length} items)</span></h1>
+          <h1 className="text-2xl font-semibold text-center mb-8 text-gray-600">CART <span className="font-normal">({items.length} items)</span></h1>
 
           {items.length === 0 ? (
             <div className="text-center text-gray-600">
