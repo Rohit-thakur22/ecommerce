@@ -2,7 +2,7 @@ import React from "react";
 
 const Feedback = () => {
   return (
-    <div className="w-full border border-gray-200 py-4 mt-4 flex items-center justify-start gap-2">
+    <div className="w-full border border-gray-200 py-4 mt-4 flex items-center justify-start gap-2 px-10">
       <div className="text-sm text-gray-600 pl-10">
         DID YOU FIND INFORMATION ON THIS PAGE USEFUL?
       </div>
