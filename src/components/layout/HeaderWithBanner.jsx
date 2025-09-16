@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { nav } from "../json/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const HeaderWithBanner = () => {
   const [showBanner, setShowBanner] = useState(true);
@@ -31,9 +32,9 @@ const HeaderWithBanner = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
-        setShowBanner(false); // hide when scroll starts
+        setShowBanner(false);
       } else {
-        setShowBanner(true); // show when back at top
+        setShowBanner(true);
       }
     };
 
